@@ -1,9 +1,12 @@
+using FluentValidation;
 using Microsoft.FeatureManagement;
+using ReferenceAPI.Employees;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddFeatureManagement();
+builder.Services.AddValidatorsFromAssemblyContaining<EmployeeCreateRequestValidator>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

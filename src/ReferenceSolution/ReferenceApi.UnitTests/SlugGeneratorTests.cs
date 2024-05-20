@@ -8,6 +8,7 @@ public class SlugGeneratorTests
     [InlineData("Luke", "Skywalker", "skywalker-luke")]
     [InlineData("Joe", "", "joe")]
     [InlineData("Cher", "", "cher")]
+    [InlineData(" Joe", " Schmidt  ", "schmidt-joe")]
     public void Avocado(string firstName, string lastName, string expected)
     {
         //Write the code you wish you had
