@@ -19,14 +19,14 @@ public class SlugGeneratorTests
         Assert.Equal(expected, slug);
     }
 
-    [Fact]
+    [Theory]
     [InlineData("", "")]
     [InlineData(null, "")]
     [InlineData(null, null)]
-    public void InvalidInputs()
+    public void InvalidInputs(string firstName, string lastName)
     {
         var slugGenerator = new EmployeeSlugGenerator();
 
-        Assert.Throws<InvalidOperationException>(() => slugGenerator.Generate("", null));
+        Assert.Throws<InvalidOperationException>(() => slugGenerator.Generate(firstName, lastName));
     }
 }
