@@ -31,8 +31,8 @@ public class AddingEmployees
     [Theory]
     [InlineData("Boba", "Fett", "fett-boba")]
     [InlineData("Luke", "Skywalker", "skywalker-luke")]
-    [InlineData("Joe", "", "joe")]
-    public async Task Bannana(string firstName, string lastName, string expectedId)
+    [InlineData("Joe", null, "joe")]
+    public async Task Bannana(string firstName, string? lastName, string expectedId)
     {
         // Given
         // A Host Per Test (Host Per Class, Collections)

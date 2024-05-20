@@ -23,10 +23,10 @@ public class SlugGeneratorTests
     [InlineData("", "")]
     [InlineData(null, "")]
     [InlineData(null, null)]
-    public void InvalidInputs(string firstName, string lastName)
+    public void InvalidInputs(string? firstName, string? lastName)
     {
         var slugGenerator = new EmployeeSlugGenerator();
 
-        Assert.Throws<InvalidOperationException>(() => slugGenerator.Generate(firstName, lastName));
+        Assert.Throws<InvalidOperationException>(() => slugGenerator.Generate(firstName!, lastName));
     }
 }

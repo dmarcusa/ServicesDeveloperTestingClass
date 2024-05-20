@@ -4,6 +4,7 @@ using ReferenceAPI.Employees;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<EmployeeSlugGenerator>();
 // Add services to the container.
 builder.Services.AddFeatureManagement();
 builder.Services.AddValidatorsFromAssemblyContaining<EmployeeCreateRequestValidator>();

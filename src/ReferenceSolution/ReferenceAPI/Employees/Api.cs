@@ -5,7 +5,7 @@ using Microsoft.FeatureManagement.Mvc;
 namespace ReferenceAPI.Employees;
 
 [FeatureGate("Employees")]
-public class Api(IValidator<EmployeeCreateRequest> validator) : ControllerBase
+public class Api(IValidator<EmployeeCreateRequest> validator, EmployeeSlugGenerator slugGenerator) : ControllerBase
 {
     [HttpPost("employees")]
     public async Task<ActionResult> AddEmployeeAsync([FromBody] EmployeeCreateRequest request)
@@ -17,7 +17,7 @@ public class Api(IValidator<EmployeeCreateRequest> validator) : ControllerBase
         }
         var response = new EmployeeResponseItem
         {
-            Id = $"{request.LastName.ToLower()}-{request.FirstName.ToLower()}",
+            Id = slugGenerator.Generate(request.FirstName, request.LastName),
             FirstName = request.FirstName,
             LastName = request.LastName,
         };
@@ -36,14 +36,4 @@ public record EmployeeResponseItem
     public required string Id { get; set; }
     public required string FirstName { get; init; }
     public required string LastName { get; init; }
-}
-
-public class EmployeeCreateRequestValidator : AbstractValidator<EmployeeCreateRequest>
-{
-    public EmployeeCreateRequestValidator()
-    {
-        RuleFor(o => o.FirstName).NotEmpty();
-        RuleFor(o => o.FirstName).MinimumLength(3).MaximumLength(256);
-        RuleFor(o => o.LastName).MinimumLength(3).MaximumLength(256);
-    }
 }
