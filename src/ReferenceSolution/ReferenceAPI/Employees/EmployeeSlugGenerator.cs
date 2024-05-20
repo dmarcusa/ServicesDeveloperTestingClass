@@ -3,7 +3,7 @@ namespace ReferenceAPI.Employees;
 
 public class EmployeeSlugGenerator
 {
-    public string Generate(string firstName, string lastName)
+    public string Generate(string firstName, string? lastName)
     {
         //if (string.IsNullOrEmpty(lastName))
         //{
@@ -23,7 +23,7 @@ public class EmployeeSlugGenerator
     //Never type private, always refector to it
     private static string? Clean(string? part)
     {
-        if (part is null)
+        if (string.IsNullOrWhiteSpace(part))
         {
             return null;
         }

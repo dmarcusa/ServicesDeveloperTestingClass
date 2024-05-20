@@ -22,26 +22,53 @@ public class ValidingEmployeeCreateRequestsTests
     }
 
     [Theory]
-    [MemberData(nameof(GetSampleModels))]
+    [MemberData(nameof(GetValidCreateRequests))]
     public void FirstNameHasToExistAndBeValidLength(EmployeeCreateRequest model)
     {
         var validator = new EmployeeCreateRequestValidator();
 
         var result = validator.TestValidate(model);
 
-        result.ShouldHaveValidationErrorFor(x => x.FirstName);
+        result.ShouldNotHaveValidationErrorFor(x => x.FirstName);
+        result.ShouldNotHaveValidationErrorFor(x => x.LastName);
     }
 
-    public static IEnumerable<object[]> GetSampleModels()
+    [Theory]
+    [MemberData(nameof(GetBadFirstNameSampleModels))]
+    public void FirstNameCannotExceedMinimumOrMaximumLength(EmployeeCreateRequest model)
+    {
+        var validator = new EmployeeCreateRequestValidator();
+
+        var result = validator.TestValidate(model);
+
+        result.ShouldHaveValidationErrorFor(x => x.FirstName);
+
+    }
+
+    public static IEnumerable<object[]> GetValidCreateRequests()
     {
         yield return new object[] {
-         new EmployeeCreateRequest {FirstName = "x"}
-         //,second arg if it takes 2 the Theory method
+            new EmployeeCreateRequest {
+                FirstName = "xxx"
+             }
         };
         yield return new object[] {
-         new EmployeeCreateRequest {FirstName = new string('X', 3)}
+            new EmployeeCreateRequest {
+                FirstName = new string('x',255)
+             }
         };
     }
-
-
+    public static IEnumerable<object[]> GetBadFirstNameSampleModels()
+    {
+        yield return new object[] {
+            new EmployeeCreateRequest {
+                FirstName = "xx" // has to be at least 3 letters
+             }
+        };
+        yield return new object[] {
+            new EmployeeCreateRequest {
+                FirstName = new string('x',257) // max of 256
+             }
+        };
+    }
 }
