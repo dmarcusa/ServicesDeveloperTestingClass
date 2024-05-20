@@ -1,0 +1,10 @@
+@ReferenceAPI_HostAddress = http://localhost:5050
+
+POST {{ReferenceAPI_HostAddress}}/employees
+Accept: application/json
+
+{
+  "firstName": "Boba",
+  "lastName": "Fett"
+}
+###
