@@ -11,7 +11,7 @@ public class Api(
     IGenerateSlugsForNewEmployees slugGenerator,
     IDocumentSession session) : ControllerBase
 {
-    [HttpPost("/employees")]
+    [HttpPost("employees")]
     public async Task<ActionResult> AddEmployeeAsync(
         [FromBody] EmployeeCreateRequest request,
         CancellationToken token)

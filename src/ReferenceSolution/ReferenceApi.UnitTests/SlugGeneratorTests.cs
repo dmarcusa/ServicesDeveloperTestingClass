@@ -10,7 +10,7 @@ public class SlugGeneratorTests
     [InlineData("Cher", "", "cher")]
     [InlineData(" Joe", " Schmidt  ", "schmidt-joe", Skip = "Waiting")]
     [InlineData("Johnny", "Marr", "marr-johnny")]
-    public async Task Avocado(string firstName, string lastName, string expected)
+    public async Task GeneratingSlugsForPostToEmployees(string firstName, string lastName, string expected)
     {
         //Write the code you wish you had
         var slugGenerator = new EmployeeSlugGenerator();

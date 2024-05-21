@@ -1,22 +1,21 @@
 ﻿
 using Alba;
-using Microsoft.Extensions.DependencyInjection;
-using NSubstitute;
-using ReferenceAPI.Employees;
+using Microsoft.AspNetCore.TestHost;
 
 namespace ReferenceApi.ContractTests;
 public class HostFixture : IAsyncLifetime
 {
     public IAlbaHost Host = null!;
+
     public async Task InitializeAsync()
     {
         Host = await AlbaHost.For<Program>(config =>
         {
-            config.ConfigureServices(services =>
+            config.ConfigureTestServices(services =>
             {
-                var fakeUniqueChecker = Substitute.For<ICheckForUniqueEmployeeStubs>();
-                //fakeUniqueChecker.CheckUniqueAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(true);
-                services.AddScoped<ICheckForUniqueEmployeeStubs>(sp => fakeUniqueChecker);
+                //var testFakeButtress = Substitute.For<ICheckForUniqueEmployeeStubs>();
+                //testFakeButtress.CheckUniqueAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(true);
+                //services.AddScoped<ICheckForUniqueEmployeeStubs>(sp => testFakeButtress);
             });
         });
     }
@@ -24,4 +23,5 @@ public class HostFixture : IAsyncLifetime
     {
         await Host.DisposeAsync();
     }
+
 }

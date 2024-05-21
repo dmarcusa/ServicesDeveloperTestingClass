@@ -42,21 +42,15 @@ public class AddingEmployees : IClassFixture<HostFixture>
     //[InlineData("Luke", "Skywalker", "skywalker-luke")]
     //[InlineData("Joe", null, "joe")]
     [ClassData(typeof(EmployeesSampleData))]
-    public async Task CanHireNewEmployee(EmployeeCreateRequest req, string expectedId)
+    public async Task CanHireNewEmployee(EmployeeCreateRequest request, string expectedId)
     {
         // Given
         // A Host Per Test (Host Per Class, Collections)
-        var request = new EmployeeCreateRequest
-        {
-            FirstName = req.FirstName,
-            LastName = req.LastName
-        };
-
         var expected = new EmployeeResponseItem
         {
             Id = expectedId,
-            FirstName = req.FirstName,
-            LastName = req.LastName
+            FirstName = request.FirstName,
+            LastName = request.LastName!
         };
         //var host = await AlbaHost.For<Program>();
 
@@ -87,7 +81,6 @@ public class AddingEmployees : IClassFixture<HostFixture>
     public async Task ValidationsAreChecked()
     {
         var request = new EmployeeCreateRequest { FirstName = "", LastName = "" }; // BAD Employee
-        var host = await AlbaHost.For<Program>();
 
         var response = await Host.Scenario(api =>
         {
