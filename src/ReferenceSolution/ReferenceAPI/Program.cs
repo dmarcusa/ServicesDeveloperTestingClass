@@ -13,7 +13,7 @@ builder.Services.AddMarten(config =>
     config.Connection(connectionString);
 }).UseLightweightSessions();
 
-builder.Services.AddSingleton<NotifiedOfPossibleSithLords>();
+builder.Services.AddSingleton<INotifyOfPossibleSithLords, NotifyOfPossibleSithLords>();
 builder.Services.AddScoped<ICheckForUniqueEmployeeStubs, EmployeeUniquenessChecker>();
 
 builder.Services.AddScoped<IGenerateSlugsForNewEmployees, EmployeeSlugGeneratorWithUniqueIds>();
