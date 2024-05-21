@@ -3,6 +3,8 @@ using Alba;
 using ReferenceAPI.Employees;
 
 namespace ReferenceApi.ContractTests.Employees;
+
+//System Tests
 public class AddingEmployees
 {
     //[Fact]
@@ -29,25 +31,25 @@ public class AddingEmployees
     //}
 
     [Theory]
-    [InlineData("Boba", "Fett", "fett-boba")]
-    [InlineData("Luke", "Skywalker", "skywalker-luke")]
-    [InlineData("Joe", null, "joe")]
-    public async Task Bannana(string firstName, string? lastName, string expectedId)
+    //[InlineData("Boba", "Fett", "fett-boba")]
+    //[InlineData("Luke", "Skywalker", "skywalker-luke")]
+    //[InlineData("Joe", null, "joe")]
+    [ClassData(EmployeesSampleData)]
+    public async Task CanHireNewEmployee(EmployeeCreateRequest request, string expectedId)
     {
         // Given
         // A Host Per Test (Host Per Class, Collections)
         var request = new EmployeeCreateRequest
         {
-            FirstName = firstName,
-            LastName = lastName
+            FirstName = request.FirstName,
+            LastName = request.LastName
         };
 
         var expected = new EmployeeResponseItem
         {
-
             Id = expectedId,
-            FirstName = firstName,
-            LastName = lastName
+            FirstName = request.FirstName,
+            LastName = request.lastName
         };
         var host = await AlbaHost.For<Program>();
 
