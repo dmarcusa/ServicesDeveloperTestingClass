@@ -15,7 +15,7 @@ public class EmployeeSlugGeneratorWithUniqueIds(ICheckForUniqueEmployeeStubs uni
         if (isUnique)
             return slug;
 
-        var letters = "abcdefghijlmnopqrstwuvxy".Select(c => c).ToList();
+        var letters = "abcdefghijklmnopqrstuvwxyz".Select(c => c).ToList();
         foreach (var letter in letters)
         {
             var attempt = slug + '-' + letter;

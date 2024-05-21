@@ -7,7 +7,7 @@ namespace ReferenceAPI.Employees;
 [FeatureGate("Employees")]
 public class Api(IValidator<EmployeeCreateRequest> validator, IGenerateSlugsForNewEmployees slugGenerator) : ControllerBase
 {
-    [HttpPost("employees")]
+    [HttpPost("/employees")]
     public async Task<ActionResult> AddEmployeeAsync(
         [FromBody] EmployeeCreateRequest request,
         CancellationToken token)
@@ -25,6 +25,12 @@ public class Api(IValidator<EmployeeCreateRequest> validator, IGenerateSlugsForN
         };
         return StatusCode(201, response);
     }
+
+    //[HttpGet("employees")]
+    //public async Task<ActionResult> GetEmployeeAsync()
+    //{
+    //    return Ok();
+    //}
 }
 
 public record EmployeeCreateRequest

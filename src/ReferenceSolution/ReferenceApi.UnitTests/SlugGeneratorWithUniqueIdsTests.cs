@@ -74,13 +74,13 @@ public class SlugGeneratorWithUniqueIdsTests
     public async Task AUniqueIdIsAdded()
     {
         var fakeUniqueChecker = Substitute.For<ICheckForUniqueEmployeeStubs>();
-
-        //Write the code you wish you had
+        //fakeUniqueChecker.CheckUniqueAsync(Arg.Any<string>(), CancellationToken.None).Returns(false);
         var slugGenerator = new EmployeeSlugGeneratorWithUniqueIds(fakeUniqueChecker);
-
         var slug = await slugGenerator.GenerateAsync("Dog", "Man");
 
-        Assert.Equal("dog-man", slug);
+        Assert.StartsWith("man-dog", slug);
+        Assert.True(slug.Length == 7 + 22); // Is the slug with 22 random thingies on the end.
+
     }
 }
 
