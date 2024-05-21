@@ -15,7 +15,15 @@ public class EmployeeSlugGeneratorWithUniqueIds(ICheckForUniqueEmployeeStubs uni
         if (isUnique)
             return slug;
 
-        return $"{slug}-a";
+        var letters = "abcdefghijlmnopqrstwuvxy".Select(c => c).ToList();
+        foreach (var letter in letters)
+        {
+            var attempt = slug + '-' + letter;
+            if (await uniquenessChecker.CheckUniqueAsync(attempt, token))
+                return attempt;
+        }
+        //throw new InvalidOperationException();
+        return SlugWithUniqueIdentifier(slug);
 
         //return Task.FromResult(slug);
     }
@@ -27,5 +35,13 @@ public class EmployeeSlugGeneratorWithUniqueIds(ICheckForUniqueEmployeeStubs uni
             return null;
         }
         return part.ToLowerInvariant().Trim();
+    }
+
+    private static string SlugWithUniqueIdentifier(string slug)
+    {
+        var base64Guid = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+        base64Guid.Replace('/', '_');
+        base64Guid.Replace('+', '_');
+        return slug + base64Guid[..22];
     }
 }
