@@ -2,7 +2,7 @@
 
 public class EmployeeSlugGeneratorWithUniqueIds(ICheckForUniqueEmployeeStubs uniquenessChecker) : IGenerateSlugsForNewEmployees
 {
-    public async Task<string> GenerateAsync(string firstName, string lastName, CancellationToken token = default)
+    public async Task<string> GenerateAsync(string firstName, string? lastName, CancellationToken token = default)
     {
         var slug = (Clean(firstName), Clean(lastName)) switch
         {

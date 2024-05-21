@@ -10,7 +10,7 @@ public class Api(
     IValidator<EmployeeCreateRequest> validator,
     IGenerateSlugsForNewEmployees slugGenerator,
     IDocumentSession session,
-    NotifyOfPossibleSithLords notifier) : ControllerBase
+    INotifyOfPossibleSithLords notifier) : ControllerBase
 {
     [HttpPost("employees")]
     public async Task<ActionResult> AddEmployeeAsync(
