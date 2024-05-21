@@ -26,11 +26,16 @@ public class Api(IValidator<EmployeeCreateRequest> validator, IGenerateSlugsForN
         return StatusCode(201, response);
     }
 
-    //[HttpGet("employees")]
-    //public async Task<ActionResult> GetEmployeeAsync()
-    //{
-    //    return Ok();
-    //}
+    [HttpGet("/employees/{slug}")]
+    public async Task<ActionResult> GetEmployeeBySlug(string slug)
+    {
+        return Ok(new EmployeeResponseItem
+        {
+            Id = "tacos",
+            FirstName = "tacos",
+            LastName = "burrito"
+        });
+    }
 }
 
 public record EmployeeCreateRequest
