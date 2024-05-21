@@ -18,14 +18,13 @@ public class HostFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
+        await _container.StartAsync();
         Host = await AlbaHost.For<Program>(config =>
         {
-            config.UseSetting("ConnectionString:data", _container.GetConnectionString());
+            config.UseSetting("ConnectionStrings:data", _container.GetConnectionString());
             config.ConfigureTestServices(services =>
             {
-                //var testFakeButtress = Substitute.For<ICheckForUniqueEmployeeStubs>();
-                //testFakeButtress.CheckUniqueAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(true);
-                //services.AddScoped<ICheckForUniqueEmployeeStubs>(sp => testFakeButtress);
+                // fake database calls.
             });
         });
     }
