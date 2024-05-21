@@ -11,7 +11,7 @@ public class SlugGeneratorWithUniqueIdsTests
     [InlineData("Cher", "", "cher")]
     [InlineData(" Joe", " Schmidt  ", "schmidt-joe", Skip = "Waiting")]
     [InlineData("Johnny", "Marr", "marr-johnny")]
-    public async Task GenerateSlugsForPostToEmployee(string firstName, string lastName, string expected)
+    public async Task GeneratingSlugsForPostToEmployees(string firstName, string lastName, string expected)
     {
         var fakeUniqueChecker = Substitute.For<ICheckForUniqueEmployeeStubs>();
         fakeUniqueChecker.CheckUniqueAsync(expected, CancellationToken.None).Returns(true);

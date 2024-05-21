@@ -42,7 +42,7 @@ public class AddingEmployees : IClassFixture<HostFixture>
     //[InlineData("Luke", "Skywalker", "skywalker-luke")]
     //[InlineData("Joe", null, "joe")]
     [ClassData(typeof(EmployeesSampleData))]
-    public async Task CanHireNewEmployee(EmployeeCreateRequest request, string expectedId)
+    public async Task CanHireNewEmployees(EmployeeCreateRequest request, string expectedId)
     {
         // Given
         // A Host Per Test (Host Per Class, Collections)
