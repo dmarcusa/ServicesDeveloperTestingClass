@@ -9,7 +9,8 @@ namespace ReferenceAPI.Employees;
 public class Api(
     IValidator<EmployeeCreateRequest> validator,
     IGenerateSlugsForNewEmployees slugGenerator,
-    IDocumentSession session) : ControllerBase
+    IDocumentSession session,
+    NotifiedOfPossibleSithLords notifier) : ControllerBase
 {
     [HttpPost("employees")]
     public async Task<ActionResult> AddEmployeeAsync(
@@ -23,6 +24,11 @@ public class Api(
         }
 
         var slug = await slugGenerator.GenerateAsync(request.FirstName, request.LastName, token);
+
+        if (request?.LastName?.ToLowerInvariant() == "vader")
+        {
+            notifier.Notify(request.FirstName, request.LastName);
+        }
 
         var entity = new EmployeeEntity
         {
