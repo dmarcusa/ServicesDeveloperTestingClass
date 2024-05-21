@@ -17,6 +17,8 @@ public class EmployeeSlugGenerator
             (string first, string last) => $"{last}-{first}",
             _ => throw new InvalidOperationException() // Chaos
         };
+
+        bool isUnique = _uniquessChecker.CheckForUniqueSlug(slug);
         return slug;
     }
 

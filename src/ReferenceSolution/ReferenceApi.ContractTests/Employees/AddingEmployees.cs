@@ -5,8 +5,15 @@ using ReferenceAPI.Employees;
 namespace ReferenceApi.ContractTests.Employees;
 
 //System Tests
-public class AddingEmployees
+public class AddingEmployees : IClassFixture<HostFixture>
 {
+    private readonly IAlbaHost Host;
+
+    public AddingEmployees(HostFixture fixture)
+    { Host = fixture.Host; }
+
+    //when running it create an instance for each test. even for inline data!!!!
+
     //[Fact]
     //public async Task Banana()
     //{
@@ -51,9 +58,9 @@ public class AddingEmployees
             FirstName = req.FirstName,
             LastName = req.LastName
         };
-        var host = await AlbaHost.For<Program>();
+        //var host = await AlbaHost.For<Program>();
 
-        var response = await host.Scenario(api =>
+        var response = await Host.Scenario(api =>
         {
             api.Post.Json(request).ToUrl("/employees");
             api.StatusCodeShouldBe(201);
@@ -64,5 +71,18 @@ public class AddingEmployees
 
         Assert.Equal(expected, responseMessage);
 
+    }
+
+    [Fact]
+    public async Task ValidationsAreChecked()
+    {
+        var request = new EmployeeCreateRequest { FirstName = "", LastName = "" }; // BAD Employee
+        var host = await AlbaHost.For<Program>();
+
+        var response = await Host.Scenario(api =>
+        {
+            api.Post.Json(request).ToUrl("/employees");
+            api.StatusCodeShouldBe(400);
+        });
     }
 }
