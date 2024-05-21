@@ -1,9 +1,9 @@
 ﻿
 namespace ReferenceAPI.Employees;
 
-public class EmployeeSlugGenerator
+public class EmployeeSlugGenerator : IGenerateSlugsForNewEmployees
 {
-    public string Generate(string firstName, string? lastName)
+    public async Task<string> GenerateAsync(string firstName, string? lastName, CancellationToken token = default)
     {
         //if (string.IsNullOrEmpty(lastName))
         //{
@@ -18,7 +18,7 @@ public class EmployeeSlugGenerator
             _ => throw new InvalidOperationException() // Chaos
         };
 
-        bool isUnique = _uniquessChecker.CheckForUniqueSlug(slug);
+        //bool isUnique = _uniquessChecker.CheckForUniqueSlug(slug);
         return slug;
     }
 

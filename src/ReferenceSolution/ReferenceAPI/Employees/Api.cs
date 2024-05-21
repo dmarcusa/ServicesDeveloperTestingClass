@@ -5,10 +5,12 @@ using Microsoft.FeatureManagement.Mvc;
 namespace ReferenceAPI.Employees;
 
 [FeatureGate("Employees")]
-public class Api(IValidator<EmployeeCreateRequest> validator, EmployeeSlugGenerator slugGenerator) : ControllerBase
+public class Api(IValidator<EmployeeCreateRequest> validator, IGenerateSlugsForNewEmployees slugGenerator) : ControllerBase
 {
     [HttpPost("employees")]
-    public async Task<ActionResult> AddEmployeeAsync([FromBody] EmployeeCreateRequest request)
+    public async Task<ActionResult> AddEmployeeAsync(
+        [FromBody] EmployeeCreateRequest request,
+        CancellationToken token)
     {
         var validations = validator.Validate(request);
         if (!validations.IsValid)
@@ -17,7 +19,7 @@ public class Api(IValidator<EmployeeCreateRequest> validator, EmployeeSlugGenera
         }
         var response = new EmployeeResponseItem
         {
-            Id = slugGenerator.Generate(request.FirstName, request.LastName),
+            Id = await slugGenerator.GenerateAsync(request.FirstName, request.LastName, token),
             FirstName = request.FirstName,
             LastName = request.LastName,
         };
