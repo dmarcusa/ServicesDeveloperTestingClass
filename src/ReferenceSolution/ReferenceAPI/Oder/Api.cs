@@ -18,14 +18,18 @@ public static class Api
         return TypedResults.Ok();
     }
 
-    public static async Task<Ok<CreateOrderResponse>> AddOrdersAsync(CancellationToken token)
+    public static async Task<Ok<CreateOrderResponse>> AddOrdersAsync(CreateOrderRequest request, CancellationToken token)
     {
+        // OBVIOUSLY NEVER TRUST ANYTHING FROM THE CLIENT - Look up these items and verify the price, etc.
+        var subTotal = request.Items.Select(i => i.Qty * i.Price).Sum();
+        decimal discount = await client.GetBonusForPurchaseAsync(Guid.NewGuid(), subTotal);
+
         var response = new CreateOrderResponse
         {
             Id = Guid.NewGuid(),
-            Discount = 0,
-            SubTotal = 0,
-            Total = 0,
+            Discount = discount,
+            SubTotal = subTotal,
+            Total = subTotal - discount,
         };
         return TypedResults.Ok(response);
     }
@@ -33,7 +37,7 @@ public static class Api
 
 public record CreateOrderRequest
 {
-    IList<OrderItemModel> Items { get; set; } = [];
+    public IList<OrderItemModel> Items { get; set; } = [];
 }
 
 public record OrderItemModel

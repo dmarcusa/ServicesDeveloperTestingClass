@@ -14,6 +14,12 @@ builder.Services.AddMarten(config =>
     config.Connection(connectionString);
 }).UseLightweightSessions();
 
+var loyaltyApiUrl = builder.Configuration.GetValue<string>("loyaltyApi") ?? throw new Exception("Configuration does not have a url for customer loyalty");
+builder.Services.AddHttpClient<CustomerLoyaltyHttpClient>(client =>
+{
+    client.BaseAddress = new Uri(loyaltyApiUrl);
+});
+
 builder.Services.AddSingleton<INotifyOfPossibleSithLords, NotifyOfPossibleSithLords>();
 builder.Services.AddScoped<ICheckForUniqueEmployeeStubs, EmployeeUniquenessChecker>();
 
@@ -39,7 +45,14 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapOrdersApi();
+//if (await app.Services.GetRequiredService<IFeatureManager>().IsEnabledAsync("Orders"))
+//{
+//    app.MapOrdersApi();
+//}
+if (app.Environment.IsDevelopment())
+{
+    app.MapOrdersApi();
+}
 app.Run();
 
 public partial class Program { }
