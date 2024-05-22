@@ -3,6 +3,7 @@ using Marten;
 using Microsoft.FeatureManagement;
 using ReferenceApi.Employees;
 using ReferenceAPI.Employees;
+using ReferenceAPI.Oder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,7 +39,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapOrdersApi();
 app.Run();
 
 public partial class Program { }
