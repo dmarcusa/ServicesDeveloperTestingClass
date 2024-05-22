@@ -18,7 +18,10 @@ public static class Api
         return TypedResults.Ok();
     }
 
-    public static async Task<Ok<CreateOrderResponse>> AddOrdersAsync(CreateOrderRequest request, CancellationToken token)
+    public static async Task<Ok<CreateOrderResponse>> AddOrdersAsync(
+        CreateOrderRequest request,
+        IGetBonusesForOrders client,
+        CancellationToken token)
     {
         // OBVIOUSLY NEVER TRUST ANYTHING FROM THE CLIENT - Look up these items and verify the price, etc.
         var subTotal = request.Items.Select(i => i.Qty * i.Price).Sum();

@@ -1,6 +1,6 @@
 ﻿namespace ReferenceAPI.Oder;
 
-public class CustomerLoyaltyHttpClient(HttpClient client)
+public class CustomerLoyaltyHttpClient(HttpClient client) : IGetBonusesForOrders
 {
     public async Task<decimal> GetBonusForPurchaseAsync(Guid customerId, decimal orderTotal, CancellationToken token = default)
     {
